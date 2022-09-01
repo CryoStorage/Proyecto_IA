@@ -5,8 +5,9 @@ using UnityEngine;
 public class SteeringBehaviours : MonoBehaviour
 {
 
-    [SerializeField] GameObject target;
+    protected GameObject target;
     [SerializeField] private float speed;
+    [SerializeField] private float mass;
     Vector3 currentVector;
 
     // Start is called before the first frame update
@@ -19,6 +20,7 @@ public class SteeringBehaviours : MonoBehaviour
     void Update()
     {
         Move();
+        // mathF.clamp()
     }
 
     Vector3 Seek(Vector3 targetPos)
@@ -29,7 +31,7 @@ public class SteeringBehaviours : MonoBehaviour
         return result;
     }
 
-    Vector3 Flee(Vector3 targetPos)
+    public virtual Vector3 Flee(Vector3 targetPos)
     {
         Vector3 distanceVector = transform.position - targetPos;
         Vector3 steeringForce = distanceVector + currentVector;
@@ -44,29 +46,27 @@ public class SteeringBehaviours : MonoBehaviour
         Vector3 distanceVector = targetPos - transform.position;
         switch (distanceVector.magnitude)
         {
-            case > 10f:
+            case float n when(n > 30f):
                 result = 0f;
                 break;
 
-            // case < 10f:
-            //     result = 1f;
-            //     break;
-            // case < 5f:
-            //     result = .6f;
-            //     break;
-            // case < .1f:
-            //     result = 0f;
-            //     break;
+            case float n when(n < 30f && n > 20f):
+                 result = 3f;
+                 break;
+
+            case float n when (n < 20 && n > 10):
+                result = 2f;
+                break;
+            
+            case float n when (n < 10 && n > 0):
+                result = .33f;
+                break;
 
             default:
-                result = 1f;
+                result = 0f;
                 break; 
-
         }
-        Debug.Log(result);
         return result;
-        
-
     }
     
 
@@ -74,7 +74,7 @@ public class SteeringBehaviours : MonoBehaviour
     {
 
         Vector3 steering = Seek(target.transform.position);
-        speed = Arrival(target.transform.position);
+        speed = Arrival(target.transform.position) * mass;
         transform.position += (currentVector + steering * speed) * Time.fixedDeltaTime;
 
     }
