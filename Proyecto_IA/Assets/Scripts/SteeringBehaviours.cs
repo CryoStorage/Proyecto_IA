@@ -5,7 +5,9 @@ using UnityEngine;
 public class SteeringBehaviours : MonoBehaviour
 {
 
-    protected GameObject target;
+    protected Vector3 targetVector;
+    public Vector3 target;
+    bool needsTarget;
     [SerializeField] private float speed;
     [SerializeField] private float mass;
     Vector3 currentVector;
@@ -13,7 +15,7 @@ public class SteeringBehaviours : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Prepare();
     }
 
     // Update is called once per frame
@@ -68,13 +70,32 @@ public class SteeringBehaviours : MonoBehaviour
         }
         return result;
     }
+
+    void Prepare()
+    {
+        if (needsTarget && target == null)
+        {
+            try
+            {
+                GameObject.Find("Target");
+            }
+            catch
+            {
+                Debug.LogWarning("Could not locate target");
+            }
+        }else
+        {
+            return;
+        }
+
+    }
     
 
     void Move()
     {
 
-        Vector3 steering = Seek(target.transform.position);
-        speed = Arrival(target.transform.position) * mass;
+        Vector3 steering = Seek(targetVector);
+        speed = Arrival(targetVector) * mass;
         transform.position += (currentVector + steering * speed) * Time.fixedDeltaTime;
 
     }

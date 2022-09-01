@@ -13,6 +13,6 @@ public class Fleer :  SteeringBehaviours
     // Update is called once per frame
     void Update()
     {
-        Flee(target.transform.position);
+        Flee(target);
     }
 }
