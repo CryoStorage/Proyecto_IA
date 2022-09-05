@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Mouse_Follow : MonoBehaviour
 {
-    [SerializeField] Vector3 screnPos;
-    [SerializeField] Vector3 worldPos;
-    [SerializeField] float offset;
+    Vector3 screnPos;
+    Vector3 worldPos;
+    float offset = 30;
     
     // Start is called before the first frame update
     void Start()

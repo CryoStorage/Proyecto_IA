@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3716325835240248922}
   - component: {fileID: 3716325835240248923}
   m_Layer: 0
-  m_Name: Seeker
+  m_Name: SteerObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,9 +55,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61e909de19c2f7943ab133441fa6701a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  targetVector: {x: 0, y: 0, z: 0}
   speed: 0.5
   mass: 1
+  behaviour: seek
 --- !u!23 &3716325835240248922
 MeshRenderer:
   m_ObjectHideFlags: 0
