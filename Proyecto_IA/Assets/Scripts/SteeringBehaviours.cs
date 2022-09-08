@@ -10,6 +10,8 @@ public class SteeringBehaviours : MonoBehaviour
     private float speed;
     [SerializeField] private float mass;
     [SerializeField] string behaviour = "seek";
+
+    Vector3 randomTarget;
     Vector3 currentVector;
 
     Vector3 minVector = new Vector3(-71.1699982f,-39f,1.799999f);
@@ -92,7 +94,8 @@ public class SteeringBehaviours : MonoBehaviour
             break;
 
             case "wander":
-            steering = Flee(targetVector);
+            steering = Wander();
+            Debug.Log("Behaviour is Wander");
             break;
 
             default:
@@ -111,9 +114,16 @@ public class SteeringBehaviours : MonoBehaviour
         
     }
 
-    Vector3 Wander(Vector3 targetPos)
+    Vector3 Wander()
     {
-        Vector3 distanceVector = targetPos - transform.position;
+        float distance = 1f;
+        float radius = .5f;
+
+        Vector3 circleCenter = currentVector.normalized * distance;
+        Vector3 rotateVector = Quaternion.AngleAxis(Random.Range(0f,121f), Vector3.forward) * circleCenter;
+
+        
+        Vector3 distanceVector = rotateVector.normalized * radius - transform.position;
         Vector3 steeringForce = distanceVector + currentVector;
 
         Vector3 result = Vector3.Normalize(distanceVector + steeringForce);
@@ -122,24 +132,20 @@ public class SteeringBehaviours : MonoBehaviour
 
     }
 
-    void RandomizeTarget()
-    {
-        for (int i = 0; i < 2; i++)
+    IEnumerator corRandomizeTarget()
+    {   
+        float targetDistance = 3;
+        float x = 0;
+        float y = 0;
+        float[] randomnumbers = new float[]{x ,y };
+        for (int i = 0; i < randomnumbers.Length ; i++)
         {
-            float r = Random.Range(10,40);
-            Vector3 randomTarget = new Vector3 (r,r,r);
-            Debug.Log("Randomized to: " + randomTarget.x +randomTarget.y + randomTarget.z);
+            randomnumbers[i] = Random.Range(-1f,1f);
         }
 
-    }
+        randomTarget = new Vector3(x,y,0).normalized * targetDistance; 
 
-    IEnumerator CorRandomize()
-    {
-        while (true)
-        {
-            RandomizeTarget();
-            yield return new WaitForSeconds(2);
-        }
+        yield return new WaitForSeconds(2);
     }
 
     void GetTarget()
