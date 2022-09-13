@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Mouse_Follow : MonoBehaviour
 {
-    Vector3 screnPos;
-    Vector3 worldPos;
-    float offset = 30;
+    private Vector3 screnPos;
+    private Vector3 worldPos;
+    private Vector3 prevPos;
+    public Vector3 velocity;
+    private float offset = 30;
     
     // Start is called before the first frame update
     void Start()
@@ -18,6 +20,7 @@ public class Mouse_Follow : MonoBehaviour
     void Update()
     {
         MouseToWorld();
+        GetVelocity();
     }
 
     void MouseToWorld()
@@ -27,5 +30,13 @@ public class Mouse_Follow : MonoBehaviour
         worldPos = Camera.main.ScreenToWorldPoint(screnPos);
         transform.position = worldPos;
 
+    }
+
+    private void GetVelocity()
+    {
+        
+        velocity = transform.position - prevPos / Time.deltaTime;
+        velocity = Vector3.Lerp(transform.position, prevPos, 0.1f);
+        prevPos = transform.position;
     }
 }
