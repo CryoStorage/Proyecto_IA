@@ -1,30 +1,26 @@
-using System.Collections;
 using UnityEngine;
 
 public class SteeringBehaviours : MonoBehaviour
 {
-    public float speed;
-    [HideInInspector]public Vector3 currentVector;
+    protected float speed = 4f;
+    protected Vector3 currentVector;
     public GameObject target;
+    public bool dynamicPursuit;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-    public Vector3 Seek(Vector3 targetPos)
+    //SteeringBehaviours returns normalized vectors
+    protected Vector3 Seek(Vector3 targetPos)
     {
         Vector3 distanceVector = targetPos - transform.position;
         Vector3 steeringForce = distanceVector + currentVector;
         Vector3 result = Vector3.Normalize(distanceVector + steeringForce);
         return result;
     }
-    public Vector3 Flee(Vector3 targetPos)
+    protected Vector3 Flee(Vector3 targetPos)
     {
         Vector3 result = Seek(targetPos) * -1;
         return result;
     }
-    public float Arrival(Vector3 targetPos)
+    protected float Arrival(Vector3 targetPos)
     {
         float result;
         Vector3 distanceVector = targetPos - transform.position;
@@ -47,20 +43,29 @@ public class SteeringBehaviours : MonoBehaviour
                 break;
 
             default:
-                result = 0f;
+                result = 1f;
                 break; 
         }
         return result;
     }
 
-    // public Vector3 pursuit(Vector3 targePos)
-    // {
-    //     
-    //     
-    // }
+    protected Vector3 Pursuit(Vector3 targetPos)
+    {
+        float t = 5;
+        if (dynamicPursuit)
+        {
+            t = (targetPos - transform.position).magnitude / speed;
+            
+        }
+        
+        Vector3 targetFrameVelocity = target.GetComponent<Mouse_Follow>().velocity;
+        Vector3 futureTarget = targetPos + targetFrameVelocity * t;
+        Vector3 result = Vector3.Normalize(Seek(futureTarget));
+        return result;
+    }
     
     // Wandering behaviour shelved for now
-    // public Vector3 Wander(Vector3 targetPos)
+    // protected Vector3 Wander(Vector3 targetPos)
     // {
     //     Vector3 distanceVector = targetPos - transform.position;
     //     Vector3 steeringForce = distanceVector + currentVector;

@@ -4,6 +4,8 @@ public class SteeringObject : SteeringBehaviours
 {
     [SerializeField] private float mass;
     [SerializeField] private string behaviour;
+
+    private Vector3 steering;
     // Update is called once per frame
     void Update()
     {
@@ -16,7 +18,7 @@ public class SteeringObject : SteeringBehaviours
         switch(behaviour)
         {
             case "seek":
-                steering = this.Seek(target.transform.position);
+                steering = Seek(target.transform.position);
                 break;
 
             case "flee":
@@ -28,7 +30,7 @@ public class SteeringObject : SteeringBehaviours
                 break;
             
             case "pursuit":
-                steering = Flee(target.transform.position);
+                steering = Pursuit(target.transform.position);
                 break;
             
             case "avoidance":
@@ -39,8 +41,9 @@ public class SteeringObject : SteeringBehaviours
                 steering = Vector3.zero;
                 break;
         }
+        
+
         //speed = Arrival(targetVector) * mass;
         transform.position += (currentVector + steering * speed) * Time.fixedDeltaTime;
-
     }
 }
