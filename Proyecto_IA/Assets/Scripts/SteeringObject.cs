@@ -1,20 +1,41 @@
+using System;
 using UnityEngine;
+using System.Collections;
+using Random = UnityEngine.Random;
 
 public class SteeringObject : SteeringBehaviours
 {
     [SerializeField] private float mass;
     [SerializeField] private string behaviour;
-
+    private Vector3 wanderTarget;
     private Vector3 steering;
+
+    private void Start()
+    {
+        StartCoroutine(CorRandomize());
+    }
     // Update is called once per frame
     void Update()
     {
         Move();
-
+    }
+    public IEnumerator CorRandomize()
+    {
+        while (true)
+        {
+            RandomizeTarget();
+            yield return new WaitForSeconds(2);
+        }
+    }  
+    public void RandomizeTarget()
+    {
+        float x = Random.Range(10,40);
+        float y = Random.Range(10,40);
+        float z = Random.Range(10,40);
+        wanderTarget = new Vector3(x, y, z);
     }
     void Move()
     {
-        Vector3 steering;
         switch(behaviour)
         {
             case "seek":
@@ -26,7 +47,7 @@ public class SteeringObject : SteeringBehaviours
                 break;
 
             case "wander":
-                steering = Flee(target.transform.position);
+                steering = Wander(wanderTarget);
                 break;
             
             case "pursuit":
@@ -34,16 +55,15 @@ public class SteeringObject : SteeringBehaviours
                 break;
             
             case "avoidance":
-                steering = Flee(target.transform.position);
+                steering = Avoidance(target.transform.position);
                 break;
 
             default:
                 steering = Vector3.zero;
                 break;
         }
-        
-
-        //speed = Arrival(targetVector) * mass;
-        transform.position += (currentVector + steering * speed) * Time.fixedDeltaTime;
+        speed = Arrival(target.transform.position) * mass;
+        transform.position += currentVector + steering * (speed * Time.fixedDeltaTime);
+        currentVector = steering * (speed * Time.fixedDeltaTime);
     }
 }
