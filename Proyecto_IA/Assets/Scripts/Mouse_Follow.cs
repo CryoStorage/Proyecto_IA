@@ -2,41 +2,47 @@ using UnityEngine;
 
 public class Mouse_Follow : MonoBehaviour
 {
-    private Vector3 screnPos;
-    private Vector3 worldPos;
-    private Vector3 prevPos;
-    public Vector3 velocity;
-    private float offset = 30;
-    private Camera mainCamera;
+    protected Vector3 _screenPos;
+    protected Vector3 _worldPos;
+    protected Vector3 _prevPos;
+    [HideInInspector]public Vector3 velocity;
+    protected float _offset = 30;
+    protected Camera _mainCamera;
     
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        if (mainCamera != null) return;
-        try
-        {
-            mainCamera = Camera.main;
-        }
-        catch { Debug.Log("Could not find Camera.main"); }
+        Prepare();
     }
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        MouseToWorld();
+        transform.position = MouseToWorld();
         GetVelocity();
     }
-    void MouseToWorld()
+    protected Vector3 MouseToWorld()
     {
-        screnPos = Input.mousePosition;
-        screnPos.z = mainCamera.nearClipPlane + offset;
-        worldPos = mainCamera.ScreenToWorldPoint(screnPos);
-        transform.position = worldPos;
+        _screenPos = Input.mousePosition;
+        _screenPos.z =_mainCamera.nearClipPlane + _offset;
+        _worldPos =_mainCamera.ScreenToWorldPoint(_screenPos);
+        return _worldPos;
 
     }
-    private void GetVelocity()
+    protected void GetVelocity()
     {
-        velocity = transform.position - prevPos / Time.deltaTime;
-        velocity = Vector3.Lerp(transform.position, prevPos, 0.1f);
-        prevPos = transform.position;
+        velocity = transform.position - _prevPos / Time.deltaTime;
+        velocity = Vector3.Lerp(transform.position, _prevPos, 0.1f);
+        _prevPos = transform.position;
+    }
+
+    protected virtual void Prepare()
+    {
+        if (_mainCamera != null) return;
+        try
+        {
+            _mainCamera = Camera.main;
+        }
+        catch { Debug.Log("Could not find Camera.main"); }
+        
     }
 }

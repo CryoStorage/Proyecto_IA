@@ -1,30 +1,29 @@
 using UnityEngine;
-using System.Collections;
 
 public class SteeringBehaviours : MonoBehaviour
 {
-    protected float speed = 4f;
-    [SerializeField]protected float wanderCircleDistance = 1f;
-    [SerializeField]protected float circleRadius = 1f;
-    protected Vector3 currentVector;
+    public float Speed = 4f;
+    [SerializeField]public float wanderCircleDistance = 1f;
+    [SerializeField]public float circleRadius = 1f;
     public GameObject target;
+    public Vector3 CurrentVector;
     public bool dynamicPursuit;
     public bool dynamicAvoid;
     
     //SteeringBehaviours returns normalized vectors
-    protected Vector3 Seek(Vector3 targetPos)
+    public Vector3 Seek(Vector3 targetPos)
     {
         Vector3 distanceVector = targetPos - transform.position;
-        Vector3 steeringForce = distanceVector + currentVector;
+        Vector3 steeringForce = distanceVector + CurrentVector;
         Vector3 result = Vector3.Normalize(distanceVector + steeringForce);
         return result;
     }
-    protected Vector3 Flee(Vector3 targetPos)
+    public Vector3 Flee(Vector3 targetPos)
     {
         Vector3 result = Seek(targetPos) * -1;
         return result;
     }
-    protected float Arrival(Vector3 targetPos)
+    public float Arrival(Vector3 targetPos)
     {
         float result;
         Vector3 distanceVector = targetPos - transform.position;
@@ -52,37 +51,37 @@ public class SteeringBehaviours : MonoBehaviour
         }
         return result;
     }
-    protected Vector3 Pursuit(Vector3 targetPos)
+    public Vector3 Pursuit(Vector3 targetPos)
     {
         float t = 5;
         if (dynamicPursuit)
         {
-            t = (targetPos - transform.position).magnitude / speed;
+            t = (targetPos - transform.position).magnitude / Speed;
         }
         Vector3 targetFrameVelocity = target.GetComponent<Mouse_Follow>().velocity;
         Vector3 futureTarget = targetPos + targetFrameVelocity * t;
-        Vector3 result = Vector3.Normalize(Seek(futureTarget));
+        Vector3 result = Seek(futureTarget);
         return result;
     }
-    protected Vector3 Avoidance(Vector3 targetPos)
+    public Vector3 Avoidance(Vector3 targetPos)
     {
         float t = 5;
         if (dynamicAvoid)
         {
-            t = (targetPos - transform.position).magnitude / speed;
+            t = (targetPos - transform.position).magnitude / Speed;
         }
         Vector3 targetFrameVelocity = target.GetComponent<Mouse_Follow>().velocity;
         Vector3 futureTarget = targetPos + targetFrameVelocity * t;
-        Vector3 result = Vector3.Normalize(Flee(futureTarget));
+        Vector3 result = Flee(futureTarget);
         return result;
     }
-    protected Vector3 Wander(Vector3 targetPos)
+    public Vector3 Wander(Vector3 targetPos)
     {
-        Vector3 circleCenter = (targetPos + currentVector.normalized) * wanderCircleDistance;
-        Vector3 rotVector = Quaternion.AngleAxis(0f, Vector3.forward) * currentVector.normalized;
+        Vector3 circleCenter = (targetPos + CurrentVector.normalized) * wanderCircleDistance;
+        Vector3 rotVector = Quaternion.AngleAxis(0f, Vector3.forward) * CurrentVector.normalized;
         Vector3 targetOnCircle = circleCenter + (rotVector * circleRadius);
 
-        Vector3 result = Vector3.Normalize(Seek(targetOnCircle));
+        Vector3 result = (Seek(targetOnCircle));
         return result;
     }
 }

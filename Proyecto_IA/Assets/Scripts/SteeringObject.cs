@@ -62,8 +62,8 @@ public class SteeringObject : SteeringBehaviours
                 steering = Vector3.zero;
                 break;
         }
-        speed = Arrival(target.transform.position) * mass;
-        transform.position += currentVector + steering * (speed * Time.fixedDeltaTime);
-        currentVector = steering * (speed * Time.fixedDeltaTime);
+        Speed = Arrival(target.transform.position) * mass;
+        transform.position += CurrentVector + steering * (Speed * Time.fixedDeltaTime);
+        CurrentVector = steering * (Speed * Time.fixedDeltaTime);
     }
 }
