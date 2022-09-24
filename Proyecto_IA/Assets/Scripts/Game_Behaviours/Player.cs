@@ -40,6 +40,8 @@ public class Player : Mouse_Follow
                 break;
         }
         transform.position += Vector3.Lerp(transform.position,_steering * (_speed * Time.fixedDeltaTime),1.3f);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -20f, 20f),
+            Mathf.Clamp(transform.position.y, -10f, 10), transform.position.z);
     }
 
     void SetTargetPos()
@@ -52,6 +54,7 @@ public class Player : Mouse_Follow
 
     protected override void Prepare()
     {
+        Application.targetFrameRate = 60;
         base.Prepare();
         if (_steeringBehaviours != null) return;
         try

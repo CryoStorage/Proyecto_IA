@@ -5,8 +5,8 @@ using Random = UnityEngine.Random;
 
 public class SteeringObject : SteeringBehaviours
 {
-    [SerializeField] private float mass;
-    [SerializeField] private string behaviour;
+    [SerializeField] protected float mass = 1;
+    protected string behaviour;
     private Vector3 wanderTarget;
     private Vector3 steering;
 
@@ -64,6 +64,7 @@ public class SteeringObject : SteeringBehaviours
         }
         Speed = Arrival(target.transform.position) * mass;
         transform.position += CurrentVector + steering * (Speed * Time.fixedDeltaTime);
-        CurrentVector = steering * (Speed * Time.fixedDeltaTime);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -20f, 20f),
+            Mathf.Clamp(transform.position.y, -10f, 10), transform.position.z);
     }
 }

@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class SteeringBehaviours : MonoBehaviour
 {
     public float Speed = 4f;
@@ -9,7 +8,7 @@ public class SteeringBehaviours : MonoBehaviour
     public Vector3 CurrentVector;
     public bool dynamicPursuit;
     public bool dynamicAvoid;
-    
+
     //SteeringBehaviours returns normalized vectors
     public Vector3 Seek(Vector3 targetPos)
     {
@@ -29,20 +28,20 @@ public class SteeringBehaviours : MonoBehaviour
         Vector3 distanceVector = targetPos - transform.position;
         switch (distanceVector.magnitude)
         {
-            case float n when(n > 30f):
+            case float n when(n > 40):
                 result = 0f;
                 break;
-
-            case float n when(n < 30f && n > 20f):
-                 result = 3f;
+            
+            case float n when(n < 40 && n > 2f):
+                 result = 5f;
                  break;
-
-            case float n when (n < 20 && n > 10):
-                result = 2f;
+            
+            case float n when (n < 2f && n > 1.5f):
+                result = 4f;
                 break;
             
-            case float n when (n < 10 && n > 0):
-                result = .33f;
+            case float n when (n < 1.5):
+                result = 0;
                 break;
 
             default:
