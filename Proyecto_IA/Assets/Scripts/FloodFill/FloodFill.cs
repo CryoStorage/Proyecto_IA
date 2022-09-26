@@ -17,18 +17,13 @@ public class FloodFill : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                GameObject cellY = (Instantiate(tile));
-                cellY.transform.position = (transform.localScale * (i + tileOffset));
-                cellY.name = i.ToString() + j.ToString();
-
-
+                GameObject cellX = Instantiate(tile);
+                cellX.transform.position = transform.position + Vector3.one * i;
+                
+                GameObject cellY = Instantiate(tile);   
+                cellY.transform.position = transform.position + Vector3.one  * j;
+                
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
