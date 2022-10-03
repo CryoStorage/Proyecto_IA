@@ -4,9 +4,9 @@ public class FloodFill_Tile : MonoBehaviour
 {
     private FloodFill_BoardManager _boardManager;
     [HideInInspector]public MeshRenderer meshRenderer;
-    [HideInInspector] public Color tileColor;
     [HideInInspector]public int i;
     [HideInInspector]public int j;
+    [HideInInspector] public bool filled;
     
     private void Start()
     {
@@ -16,22 +16,11 @@ public class FloodFill_Tile : MonoBehaviour
 
     public void Fill()
     {
+        if (filled) return;
         meshRenderer.material.color = Color.black;
+        filled = true;
 
     }
-
-    public void Flood()
-    {
-        if (i == 0 && i == _boardManager.width) return;
-        if (j == 0 && j == _boardManager.height) return;
-
-        if (_boardManager.Tiles[i + 1, j + 1].GetComponent<FloodFill_Tile>().tileColor == this.tileColor) return;
-        _boardManager.Tiles[i +1, j+1].GetComponent<FloodFill_Tile>().Fill();
-        if (_boardManager.Tiles[i - 1, j - 1].GetComponent<FloodFill_Tile>().tileColor == this.tileColor) return;
-        _boardManager.Tiles[i -1, j-1].GetComponent<FloodFill_Tile>().Fill();
-        
-    }
-
     void GetId()
     {
         string[] n = name.Split(",", 2);
@@ -39,14 +28,24 @@ public class FloodFill_Tile : MonoBehaviour
         j = int.Parse(n[1]);
 
     }
+            
+    // public void Flood()
+    // {
+    //     Debug.LogFormat("flooding");
+    //     Tiles[i + 1, j].GetComponent<FloodFill_Tile>().Fill();
+    //     Tiles[i - 1, j].GetComponent<FloodFill_Tile>().Fill();
+    //     Tiles[i, j -1].GetComponent<FloodFill_Tile>().Fill();
+    //     Tiles[i, j +1].GetComponent<FloodFill_Tile>().Fill();
+    //     
+    // }
 
     void Prepare()
     {
         if (meshRenderer != null) return;
         try
         {
+            
             meshRenderer = GetComponent<MeshRenderer>();
-            tileColor = meshRenderer.material.color;
         }
         catch { Debug.LogWarning("Could not find meshRenderer"); }
     }

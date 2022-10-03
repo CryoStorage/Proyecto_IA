@@ -28,31 +28,28 @@ public class FloodFill_CamRaycaster : MonoBehaviour
     void CheckSpace()
     {
         if (! Input.GetKeyDown (KeyCode.Space)) return;
-        try
-        {
-            selectedTile.GetComponent<FloodFill_Tile>().Flood();
         
-        }
-        catch { Debug.LogWarning("Could not begin flood"); }
-        
-
     }
 
     void CheckClick()
     {
-        if (_selected) return;
         if (!Input.GetMouseButtonDown(0)) return;
+        SelectTile();
+    }
+
+    void SelectTile()
+    {
+        if (_selected) return;
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity)) return;
         try
         {
             selectedTile = hit.collider.gameObject;
+            Debug.Log(selectedTile.name);
             hit.collider.gameObject.GetComponent<FloodFill_Tile>().Fill();
             _selected = true;
         }
         catch { Debug.LogWarning("not a tile"); }
-
-        
     }
 
     void Prepare()

@@ -14,19 +14,16 @@ public class FloodFill_BoardManager : MonoBehaviour
         Centering();
         MakeTiles();    
     }
-    
-
     private void Centering()
     {
         transform.position = Vector3.zero;
         
-        Vector3 center = new Vector3(width *.5f, height*-.5f, 0);
-        Vector3 pivot = new Vector3(transform.localScale.x, transform.localScale.y, 0);
-        transform.position -= (center);
-        transform.position -= pivot;
+        Vector3 center = new Vector3(width *-.5f, height*.5f, 0);
+        Vector3 pivot = new Vector3(transform.lossyScale.x, transform.localScale.y, 0);
+        transform.position += (center);
+        transform.position -= pivot *.5f;
 
     }
-
     private void MakeTiles()
     {
         Tiles = new GameObject[width,height];
