@@ -32,6 +32,7 @@ public class FloodFill_BoardManager : MonoBehaviour
             GameObject cellX = Instantiate(tile);
             cellX.name = "0," + i;
             cellX.transform.position = transform.position + Vector3.down * i * tileOffset;
+            Tiles[0, i] = cellX;
             
             for (int j = 1; j < width; j++)
             {
@@ -40,7 +41,7 @@ public class FloodFill_BoardManager : MonoBehaviour
                 cellY.transform.position = transform.position  + Vector3.right  * j * tileOffset;
                 cellY.transform.position += Vector3.down * i * tileOffset; 
                 cellY.name = j +"," + i;
-
+                Tiles[j, i] = cellY;
 
             }
         }
