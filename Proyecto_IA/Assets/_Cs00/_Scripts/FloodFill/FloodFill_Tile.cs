@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class FloodFill_Tile : MonoBehaviour
 {
-    private FloodFill_BoardManager _boardManager;
+    protected FloodFill_BoardManager BoardManager;
     [HideInInspector]public MeshRenderer meshRenderer;
     [HideInInspector]public int i;
     [HideInInspector]public int j;
     [HideInInspector] public bool filled;
     
-    private void Start()
+    protected virtual void Start()
     {
         Prepare();
         GetId();
     }
 
-    public void Fill()
+    public virtual void Fill()
     {
         if (filled) return;
         meshRenderer.material.color = Color.black;
@@ -28,18 +28,8 @@ public class FloodFill_Tile : MonoBehaviour
         j = int.Parse(n[1]);
 
     }
-            
-    // public void Flood()
-    // {
-    //     Debug.LogFormat("flooding");
-    //     Tiles[i + 1, j].GetComponent<FloodFill_Tile>().Fill();
-    //     Tiles[i - 1, j].GetComponent<FloodFill_Tile>().Fill();
-    //     Tiles[i, j -1].GetComponent<FloodFill_Tile>().Fill();
-    //     Tiles[i, j +1].GetComponent<FloodFill_Tile>().Fill();
-    //     
-    // }
-
-    void Prepare()
+    
+    protected virtual void Prepare()
     {
         if (meshRenderer != null) return;
         try

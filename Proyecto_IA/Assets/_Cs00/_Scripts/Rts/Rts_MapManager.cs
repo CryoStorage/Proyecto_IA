@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Rts_MapManager : MonoBehaviour
@@ -20,21 +19,30 @@ public class Rts_MapManager : MonoBehaviour
     private Rts_Terrains _terrains;
     private Rts_Map _m;
     
+    public bool Iso
+    {
+        get { return _iso;}
+        set { _iso = value; }
+    }
+    
     void Start()
     {
         Prepare();
         Initialize();
 
-        _m.Map = _m.CreateMap(blockPrefab);
-    }
-
-    void Update()
-    {
-        
     }
 
     void Initialize()
     {
+        switch (_iso)
+        {
+            case true:
+                _m.Map = _m.IsoMap(blockPrefab);
+                break;
+            case false:
+                _m.Map = _m.FlatMap(blockPrefab);
+                break;
+        }
         
     }
 
