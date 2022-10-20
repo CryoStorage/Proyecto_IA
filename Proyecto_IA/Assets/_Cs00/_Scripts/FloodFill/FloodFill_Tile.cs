@@ -44,7 +44,6 @@ public class FloodFill_Tile : MonoBehaviour
         if (meshRenderer != null) return;
         try
         {
-            
             meshRenderer = GetComponent<MeshRenderer>();
         }
         catch { Debug.LogWarning("Could not find meshRenderer"); }

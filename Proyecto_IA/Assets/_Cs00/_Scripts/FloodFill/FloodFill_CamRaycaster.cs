@@ -4,7 +4,7 @@ public class FloodFill_CamRaycaster : MonoBehaviour
 {
     private bool _selected;
 
-    public GameObject selectedTile;
+    [HideInInspector]public GameObject selectedTile;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,11 +54,5 @@ public class FloodFill_CamRaycaster : MonoBehaviour
 
     void Prepare()
     {
-        try
-        {
-            transform.position =  Camera.main.transform.position;
-            transform.rotation = Camera.main.transform.rotation;
-        }
-        catch{ Debug.Log("Could not find Camera.main"); }
     }
 }

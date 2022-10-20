@@ -24,10 +24,8 @@ public class Rts_MapManager : MonoBehaviour
     {
         Prepare();
         Initialize();
-        
 
         _m.Map = _m.CreateMap(blockPrefab);
-
     }
 
     void Update()
@@ -42,25 +40,17 @@ public class Rts_MapManager : MonoBehaviour
 
     void Prepare()
     {
-            Debug.Log("Enter Prepare");
         if (_terrains != null) return;
-            Debug.Log("terrains is null");
         try
         {
-            Debug.Log("getting terrains");
             _terrains = GetComponent<Rts_Terrains>();
-            Debug.Log("got terrains");
         }
         catch { Debug.Log("Could not find Rts_Terrains"); }
         if (_m != null) return;
-            Debug.Log("m is null");
         try
         {
-            Debug.Log("getting m");
             _m = GetComponent<Rts_Map>();
-            Debug.Log("got m");
         }
         catch { Debug.Log("Could not find Rts_Map"); }
-            Debug.Log("Exit Prepare");
     }
 }

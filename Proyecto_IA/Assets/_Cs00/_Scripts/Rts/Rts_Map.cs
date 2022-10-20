@@ -4,13 +4,13 @@ public class Rts_Map : MonoBehaviour
 {
     public GameObject[,] Map;
     
-    private int _height = 60;
-    private int _width = 100;
+    private int _height = 30;
+    private int _width = 50;
 
     private Vector3 _rotX;
     private Vector3 _rotY;
 
-    private int _offset = 1;
+    private float _offset = 1.1f;
     private bool _iso;
     private int _order;
 
@@ -19,6 +19,8 @@ public class Rts_Map : MonoBehaviour
 
     public GameObject[,] CreateMap(GameObject prefab, Sprite s = null, bool iso = false)
     {
+        transform.position -= new Vector3((_width *.5f) + _offset,0,0);
+        transform.position += new Vector3(0, (_height*.5f) + _offset,0);
         GameObject[,] Map = new GameObject[_width, _height];
         for (int i = 0; i < _height; i++)
         {
@@ -27,7 +29,7 @@ public class Rts_Map : MonoBehaviour
             cellX.transform.position = transform.position + Vector3.down * i * _offset;
             Map[0, i] = cellX;
             
-            for (int j = 0; j < _width; j++)
+            for (int j = 1; j < _width; j++)
             {
                 GameObject cellY = Instantiate(prefab);   
                 cellY.name = j +"," + i;
