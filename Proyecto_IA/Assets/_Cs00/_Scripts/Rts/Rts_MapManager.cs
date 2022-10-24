@@ -28,21 +28,25 @@ public class Rts_MapManager : MonoBehaviour
     void Start()
     {
         Prepare();
-        Initialize();
+        //hard coded for debugging purposes
+        Initialize(true);
 
     }
 
-    void Initialize()
+    void Initialize(bool iso)
     {
-        switch (_iso)
+        switch (iso)
         {
             case true:
                 _m.Map = _m.IsoMap(blockPrefab);
+                Debug.Log("making iso map");
                 break;
             case false:
                 _m.Map = _m.FlatMap(blockPrefab);
+                Debug.Log("making flat map");
                 break;
         }
+
         
     }
 
