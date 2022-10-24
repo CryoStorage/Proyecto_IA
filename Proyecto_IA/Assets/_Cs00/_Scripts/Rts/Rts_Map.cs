@@ -3,7 +3,7 @@ using UnityEngine;
 public class Rts_Map : MonoBehaviour
 {
     public GameObject[,] Map;
-
+    public Rts_Block[,] Blocks;
     private int _height = 60;
     private int _width = 100;
 
@@ -17,6 +17,38 @@ public class Rts_Map : MonoBehaviour
     private GameObject _startBlock;
     private GameObject _goalBlock;
 
+    public GameObject[,] IsoMap(GameObject prefab, Sprite s = null)
+    {
+        Map = new GameObject[_width, _height];
+        Blocks = new Rts_Block[_width, _height];
+        for (int i = 0; i < _height; i++)
+        {
+            for (int j = 0; j < _width; j++)
+            {
+                GameObject cell = Instantiate(prefab);
+                
+                cell.name = j + "," + i;
+                cell.transform.position = IsoTransform(i, j, cell);
+                Map[j, i] = cell;
+                Rts_Block block = cell.GetComponent<Rts_Block>();
+                block.Rend.sortingOrder = _order;
+                Blocks[j, i] = block;
+                _order++;
+            }
+        }
+        return Map;
+    }
+
+    private Vector3 IsoTransform(int xCord, int yCord, GameObject tile)
+    {
+        Vector3 scale = tile.transform.lossyScale;
+        float newX = (xCord - yCord) * (scale.x * .69f);
+        float newY = (xCord + yCord) * (scale.y * .4f);
+        Vector3 result = new Vector3(newX + (_width * .16f), -newY + (_height * .5f), 0);
+        return result;
+
+    }
+    
     public GameObject[,] FlatMap(GameObject prefab, Sprite s = null, bool iso = false)
     {
         transform.position -= new Vector3((_width * .5f) + _offset, 0, 0);
@@ -31,51 +63,14 @@ public class Rts_Map : MonoBehaviour
 
             for (int j = 1; j < _width; j++)
             {
-                GameObject cellY = Instantiate(prefab);
-                cellY.name = j + "," + i;
-                cellY.transform.position = transform.position + (Vector3.right * j * _offset) +
-                                           (Vector3.down * i * _offset);
-                Map[j, i] = cellY;
+                GameObject cell = Instantiate(prefab);
+                cell.name = j + "," + i;
+                cell.transform.position = transform.position + (Vector3.right * j * _offset) +
+                                          (Vector3.down * i * _offset);
+                Map[j, i] = cell;
             }
         }
-
         return Map;
-    }
-
-    public GameObject[,] IsoMap(GameObject prefab, Sprite s = null, bool iso = false)
-    {
-        GameObject[,] Map = new GameObject[_width, _height];
-        for (int i = 0; i < _height; i++)
-        {
-            GameObject cellX = Instantiate(prefab);
-            cellX.transform.position = IsoTransform(i, 0, cellX);
-            Map[0, i] = cellX;
-
-            for (int j = 1; j < _width; j++)
-            {
-                GameObject cellY = Instantiate(prefab);
-                cellX.name = "0," + i;
-                cellY.name = j + "," + i;
-
-                cellY.transform.position = IsoTransform(i, j, cellY);
-
-                Map[j, i] = cellY;
-            }
-        }
-
-        return Map;
-    }
-
-    private Vector3 IsoTransform(int xCord, int yCord, GameObject tile)
-    {
-        Vector3 scale = tile.transform.lossyScale;
-        Vector3 pos = tile.transform.position;
-
-        float newX = (xCord - yCord) * (scale.x * .69f);
-        float newY = (xCord + yCord) * (scale.y * .4f);
-        Vector3 result = new Vector3(newX + (_width * .16f), -newY + (_height * .5f), 0);
-        return result;
-
     }
 
 }

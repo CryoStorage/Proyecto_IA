@@ -46,8 +46,6 @@ public class Rts_MapManager : MonoBehaviour
                 Debug.Log("making flat map");
                 break;
         }
-
-        
     }
 
     void Prepare()

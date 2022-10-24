@@ -6,13 +6,20 @@ using UnityEngine;
 public class Rts_Block : FloodFill_Tile
 {
     private SpriteRenderer _rend;
+    private int _order;
+
+    public int Order
+    {
+        get { return _order;}
+        set { _rend.sortingOrder = value; }
+    }
+    public SpriteRenderer Rend { get{return _rend;}  }
 
     [SerializeField] private Sprite[] sprites;
-    // Start is called before the first frame update
-    protected override void Start()
+
+    private void Awake()
     {
         Prepare();
-        
     }
 
     public override void Fill()

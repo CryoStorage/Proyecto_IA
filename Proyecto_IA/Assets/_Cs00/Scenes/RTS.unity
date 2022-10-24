@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 443213964}
   - component: {fileID: 443213965}
   - component: {fileID: 443213967}
+  - component: {fileID: 443213968}
   m_Layer: 0
   m_Name: MapManager
   m_TagString: Untagged
@@ -355,6 +356,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedTile: {fileID: 0}
+--- !u!114 &443213968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443213963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dfb95d19584f83408c31162c82764b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &587486702
 GameObject:
   m_ObjectHideFlags: 0
