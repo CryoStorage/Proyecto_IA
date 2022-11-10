@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 public class FloodFill_CamRaycaster : MonoBehaviour
 {
     private bool _selected;
-
+    private Rts_Terrains _terrains;
+    private Sprite[] _sprites;
     [HideInInspector]public GameObject selectedTile;
     // Start is called before the first frame update
     void Start()
@@ -45,7 +47,7 @@ public class FloodFill_CamRaycaster : MonoBehaviour
         {
             selectedTile = hit.collider.gameObject;
             Debug.Log(selectedTile.name);
-            hit.collider.gameObject.GetComponent<Rts_Block>().SelectInteractions();
+            hit.collider.gameObject.GetComponent<Rts_Block>().SelectInteractions(_sprites[0]);
             _selected = true;
         }
         catch { Debug.LogWarning("not a tile"); }
@@ -53,5 +55,12 @@ public class FloodFill_CamRaycaster : MonoBehaviour
 
     void Prepare()
     {
+        try
+        {
+            _terrains = GetComponent<Rts_Terrains>();
+            _sprites = _terrains.sprites;
+
+        }
+        catch { Debug.LogWarning("Missing RTS_Terrains"); }
     }
 }
