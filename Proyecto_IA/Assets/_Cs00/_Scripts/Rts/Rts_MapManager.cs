@@ -18,32 +18,25 @@ public class Rts_MapManager : MonoBehaviour
 
     private Rts_Terrains _terrains;
     private Rts_Map _m;
-    
-    public bool Iso
-    {
-        get { return _iso;}
-        set { _iso = value; }
-    }
-    
+
+    [SerializeField] private bool iso;
+
     void Start()
     {
         Prepare();
-        //hard coded for debugging purposes
-        Initialize(true);
+        Initialize(iso);
 
     }
 
-    void Initialize(bool iso)
+    void Initialize(bool isIso)
     {
-        switch (iso)
+        switch (isIso)
         {
             case true:
                 _m.Map = _m.IsoMap(blockPrefab);
-                Debug.Log("making iso map");
                 break;
             case false:
                 _m.Map = _m.FlatMap(blockPrefab);
-                Debug.Log("making flat map");
                 break;
         }
     }

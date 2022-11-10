@@ -5,7 +5,7 @@ public class Rts_Map : MonoBehaviour
     public GameObject[,] Map;
     public Rts_Block[,] Blocks;
     private int _height = 60;
-    private int _width = 100;
+    private int _width = 60;
 
     private Vector3 _rotX;
     private Vector3 _rotY;
@@ -26,7 +26,7 @@ public class Rts_Map : MonoBehaviour
             for (int j = 0; j < _width; j++)
             {
                 GameObject cell = Instantiate(prefab);
-                
+                cell.transform.SetParent(gameObject.transform);
                 cell.name = j + "," + i;
                 cell.transform.position = IsoTransform(i, j, cell);
                 Map[j, i] = cell;

@@ -22,11 +22,37 @@ public class Rts_Block : FloodFill_Tile
         Prepare();
     }
 
+    public virtual void SelecInteractions()
+    {
+        switch (filled)
+        {
+            case false:
+                Select();
+                break;
+                
+            case true:
+                DeSelect();
+                break;
+        }
+    }
+
     public override void Fill()
+    {
+        
+    }
+    
+    public void Select()
     {
         if (filled) return;
         _rend.sprite = sprites[1];
         filled = true;
+    }
+
+    public void DeSelect()
+    {
+        if (!filled) return;
+        _rend.sprite = sprites[0];
+        filled = false;
     }
 
     protected override void Prepare()

@@ -21,6 +21,7 @@ public class FloodFill_Tile : MonoBehaviour
         filled = true;
 
     }
+
     void GetId()
     {
         string[] n = name.Split(",", 2);
