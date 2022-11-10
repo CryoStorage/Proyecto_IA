@@ -15,8 +15,7 @@ public class Rts_MapManager : MonoBehaviour
     private Color _goalColor;
 
     private bool _gotSelected;
-
-    private Rts_Terrains _terrains;
+    
     private Rts_Map _m;
 
     [SerializeField] private bool iso;
@@ -40,15 +39,10 @@ public class Rts_MapManager : MonoBehaviour
                 break;
         }
     }
+    
 
     void Prepare()
     {
-        if (_terrains != null) return;
-        try
-        {
-            _terrains = GetComponent<Rts_Terrains>();
-        }
-        catch { Debug.Log("Could not find Rts_Terrains"); }
         if (_m != null) return;
         try
         {

@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class Rts_Terrains : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Sprite[] _sprites;
+    public Sprite[] sprites
     {
-        
+        get { return _sprites;}
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

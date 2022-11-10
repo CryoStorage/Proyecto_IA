@@ -22,7 +22,6 @@ public class FloodFill_CamRaycaster : MonoBehaviour
         CheckClick();
         CheckSpace();
 
-
     }
 
     void CheckSpace()
@@ -46,7 +45,7 @@ public class FloodFill_CamRaycaster : MonoBehaviour
         {
             selectedTile = hit.collider.gameObject;
             Debug.Log(selectedTile.name);
-            hit.collider.gameObject.GetComponent<Rts_Block>().SelecInteractions();
+            hit.collider.gameObject.GetComponent<Rts_Block>().SelectInteractions();
             _selected = true;
         }
         catch { Debug.LogWarning("not a tile"); }

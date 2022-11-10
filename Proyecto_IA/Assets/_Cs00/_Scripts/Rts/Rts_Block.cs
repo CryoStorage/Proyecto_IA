@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Rts_Block : FloodFill_Tile
 {
+    private Rts_Terrains _terrains;
+    private Sprite[] _sprites;
     private SpriteRenderer _rend;
     private int _order;
 
@@ -15,45 +17,43 @@ public class Rts_Block : FloodFill_Tile
     }
     public SpriteRenderer Rend { get{return _rend;}  }
 
-    [SerializeField] private Sprite[] sprites;
-
     private void Awake()
     {
         Prepare();
     }
 
-    public virtual void SelecInteractions()
+    public void SelectInteractions(Sprite sprite)
     {
         switch (filled)
         {
             case false:
-                Select();
+                Select(sprite);
                 break;
                 
             case true:
-                DeSelect();
+                DeSelect(sprite);
                 break;
         }
     }
 
-    public override void Fill()
+    public void Fill(Sprite sprite)
     {
-        
+        _rend.sprite = _sprites[2];
+    }
+    private void DeSelect(Sprite sprite)
+    {
+        if (!filled) return;
+        _rend.sprite = _sprites[0];
+        filled = false;
     }
     
-    public void Select()
+    private void Select(Sprite sprite)
     {
         if (filled) return;
-        _rend.sprite = sprites[1];
+        _rend.sprite = _sprites[1];
         filled = true;
     }
 
-    public void DeSelect()
-    {
-        if (!filled) return;
-        _rend.sprite = sprites[0];
-        filled = false;
-    }
 
     protected override void Prepare()
     {
@@ -62,5 +62,16 @@ public class Rts_Block : FloodFill_Tile
             _rend = GetComponent<SpriteRenderer>();
         }
         catch { Debug.Log("Could not find SpriteRenderer");}
+
+        try
+        {
+            _terrains = GetComponent<Rts_Terrains>();
+            _sprites = _terrains.sprites;
+        }
+        catch
+        {
+            Debug.Log("Could not find SpriteRenderer");
+        }
+
     }   
 }
